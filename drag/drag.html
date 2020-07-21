@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .drag-container{
+            width: 600px;
+            height: 600px;
+            position: relative;
+            border:1px solid red;
+            margin:20px auto 0;
+        }
+        .drag{
+            width: 100px;
+            height: 100px;
+            background: #ccc;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="drag-container">
+        <div class="drag">
+
+        </div>
+    </div>
+    <script src="drag.js"></script>
+    <script>
+        // 1.按下获取鼠标相对于浏览器的距离
+        // 2.按下时获取事件源的left
+        // 1-2
+        // 3.鼠标移动时获得鼠标相对于浏览器的距离
+        // 3-(1-2)=拖拽时事件源的left值或top值
+        // 适合所有布局
+        var div=document.querySelector(".drag");
+        div.onmousedown=function(e){
+            var cx=e.offsetX;
+            var cy=e.offsetY;
+            var ox=div.offsetLeft;
+            var oy=div.offsetTop;
+            var downx=cx-ox;
+            var downy=cy-oy;
+            document.onmousemove=function(event){
+                var movex=event.clientX;
+                var movey=event.clientY;
+                div.style.left=movex-downx+"px";
+                div.style.top=movey-downy+"px";
+                event.preventDefault();
+            }
+            document.onmouseup=function(){
+                document.onmousemove=null;
+                document.onmouseup=null;
+            }
+        }
+
+
+        // var div=document.querySelector(".drag");
+        // var container=document.querySelector(".drag-container")
+        // var dragObj=new drag(".drag");
+        // dragObj.side.x1=container.clientLeft;
+        // dragObj.side.x2=container.clientLeft+parseInt(getComputedStyle(container,null)["width"])-parseInt(getComputedStyle(div,null)["width"]);
+        // dragObj.side.y1=container.clientTop;
+        // dragObj.side.y2=container.clientTop+parseInt(getComputedStyle(container,null)["height"])-parseInt(getComputedStyle(div,null)["height"]);
+        
+        
+        // // dragObj.move(function(){
+        // //     this.style.top=0;
+        // //     this.style.left=0;
+        // // });
+        // dragObj.move();
+        
+    </script>
+</body>
+</html>

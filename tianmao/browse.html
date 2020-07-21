@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        a{
+            text-decoration: none;
+        }
+        .enlarge{
+            height: 418px;
+            margin-top:50px;
+            margin-left: 50px;
+            position: relative;
+        }
+        .enlarge .display{
+            width: 418px;
+            height: 100%;
+            border:1px solid rgba(0,0,0,0.05);
+        }
+        .list{
+            width: 418px;
+            height: 60px;
+            margin-left: 50px;
+            padding-top: 22px;
+            text-align: center;
+        }
+        .list a{
+            width: 56px;
+            height: 56px;
+            display: inline-block;
+            border: 2px solid #fff;
+        }
+        .list img{
+            width: 100%;
+            height: 100%; 
+        }
+        .list a:not(.first){
+            margin-left:16px;
+        }
+        .enlarge .area{
+            width: 209px;
+            height: 209px;
+            position: absolute;
+            background: rgba(0,0,0,0.1);
+            top:0;
+            left:0;
+            display: none;
+        }
+        .big{
+            display: inline-block;
+            position: relative;
+            width: 418px;
+            height: 100%;
+            margin-left: 5px;
+            overflow: hidden;
+            border:1px solid rgba(0,0,0,0.3);
+            display: none;
+        }
+        .big img{
+            position: absolute;
+            width: 836px;
+            height: 836px;
+        }
+    </style>
+</head>
+<body>
+    <div class="enlarge">
+        <img src="mart1.jpg" class="display">
+        <div class="big">
+            <img src="mart1.jpg" class="hidden">
+        </div>       
+        <div class="area"></div>
+    </div>
+    <div class="list">
+        <a href="mart1.jpg" class="first" style="border:2px solid #000;">
+            <img src="mart1.jpg" alt="">
+        </a>
+        <a href="mart2.jpg">
+            <img src="mart2.jpg" alt="">
+        </a>
+        <a href="mart3.jpg">
+            <img src="mart3.jpg" alt="">
+        </a>
+        <a href="mart4.jpg">
+            <img src="mart4.jpg" alt="">
+        </a>
+        <a href="hk3.jpg">
+            <img src="hk3.jpg" alt="">
+        </a>
+    </div>
+    <script src="drag.js"></script>
+    <script>
+        var links=document.querySelectorAll(".list a");
+        var img=document.querySelector(".enlarge .display");
+        var big=document.querySelector(".enlarge .hidden");
+        var bigContainer=document.querySelector(".enlarge .big")
+        var area=document.querySelector(".enlarge .area");
+        var enlarge=document.querySelector(".enlarge");
+        for(var i=0;i<links.length;i++){
+            links[i].onmouseover=function(){
+                img.src=this.href;
+                big.src=this.href;
+                for(var j=0;j<links.length;j++){
+                    links[j].style.border="";     
+                }
+                this.style.border="2px solid #000";
+                return false;
+            }
+            links[i].onclick=function(){
+                return false;
+            }
+        }
+
+        img.onmouseenter=function(event){
+            bigContainer.style.display="inline-block";
+            area.style.display="inline-block";
+           
+        }
+        img.onmousemove=function(event){
+            var left=enlarge.offsetLeft;
+            var top=enlarge.offsetTop;
+            var width=img.clientWidth;
+            var height=img.clientHeight;
+            var areaWidth=area.offsetWidth;
+            var areaHeight=area.offsetHeight;
+            var imgX=event.clientX;
+            var imgY=event.clientY;
+            var x=imgX-areaWidth/2;
+            var y=imgY-areaHeight/2;
+            if(x<0){
+                x=0;
+            }
+            if(x>width-areaWidth){
+                x=width-areaWidth;
+            }
+            if(y<0){
+                y=0;
+            }
+            if(y>height-areaHeight){
+                y=height-areaHeight;
+            }
+            area.style.top=y+'px';
+            area.style.left=x+'px';
+            big.style.left=-x*width/areaWidth+'px';
+            big.style.top=-y*height/areaHeight+'px';
+        }   
+        img.onmouseleave=function(ev){
+            // bigContainer.style.display="none";
+            // area.style.display="none";
+        }
+        
+        
+    </script>
+</body>
+</html>
